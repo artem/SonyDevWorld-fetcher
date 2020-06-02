@@ -6,16 +6,22 @@ import json
 import socket
 import socks
 
+
+use_proxy = True
+max_entries = 20
+
 print('Started')
 last_file = 'SonyOSS.status' # last published update
 token = 'bot token goes here'
 channel = '-1001334007105' # https://t.me/SMDW_downloads
-socks.set_default_proxy(socks.SOCKS5, "localhost", 9050, True) # TOR proxy to push to Telegram. Too bad!
-socket.socket = socks.socksocket
+
+if use_proxy:
+    socks.set_default_proxy(socks.SOCKS5, "localhost", 9050, True) # TOR proxy to push to Telegram
+    socket.socket = socks.socksocket
 
 telegram = 'https://api.telegram.org/bot{0}/sendMessage'.format(token)
 base_url = 'https://developer.sony.com'
-url = base_url + '/api/post-resources/fetch-posts/?resourceIs=file-download&limit=70'
+url = base_url + '/api/post-resources/fetch-posts/?resourceIs=file-download&limit=' + max_entries
 with open(last_file, 'r') as f:
     status = f.readline().strip()
 
