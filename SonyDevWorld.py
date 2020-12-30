@@ -150,8 +150,8 @@ for n in reversed(range(0, len(items))):
         "{}\n".format(items[min(n + 2, len(items) - 1)].get("guid"))
     ]
 
-    sleep(timeout)  # We do not want to be cooled down by Bot API
+    # Write guids of last posted entries to laststatus.txt
+    with open(last_file, 'w') as f:
+        f.writelines(last_guids)
 
-# Write guid of last posted entry to laststatus.txt
-with open(last_file, 'w') as f:
-    f.writelines(last_guids)
+    sleep(timeout)  # We do not want to be cooled down by Bot API
