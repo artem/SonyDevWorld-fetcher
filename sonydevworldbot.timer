@@ -1,0 +1,11 @@
+[Unit]
+Description=SonyDevWorld bot timer for user %i
+
+[Timer]
+#OnCalendar=daily
+#Persistent=true
+OnBootSec=1min
+OnUnitActiveSec=1min
+
+[Install]
+WantedBy=timers.target

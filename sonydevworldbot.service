@@ -1,0 +1,12 @@
+[Unit]
+Description = SonyDevWorld bot
+
+[Service]
+Type=oneshot
+# Adjust to where you'd like to deploy the bot
+# %h expands to the current user's home dir
+WorkingDirectory = %h/bot
+#Environment=SONYDEVWORLD_BOT_TOKEN='<my-token>'
+#Environment=SONYDEVWORLD_BOT_CHANNEL='<my-channel-id>'
+ExecStart = /usr/bin/python3 %h/bot/SonyDevWorld.py
+PrivateTmp=true
