@@ -49,4 +49,4 @@ The last posted item's `guid` info is saved to `laststatus.txt`. It would look
 something like `file-download-786918`.
 
 ## License
-MIT, see [LICENSE.md][LICENSE.md].
+MIT, see [LICENSE.md](LICENSE.md).
