@@ -8,5 +8,7 @@ Type=oneshot
 WorkingDirectory = %h/bot
 #Environment=SONYDEVWORLD_BOT_TOKEN='<my-token>'
 #Environment=SONYDEVWORLD_BOT_CHANNEL='<my-channel-id>'
+# PYTHONUNBUFFERED is needed for proper logging to journald
+Environment=PYTHONUNBUFFERED=1
 ExecStart = /usr/bin/python3 %h/bot/SonyDevWorld.py
 PrivateTmp=true
