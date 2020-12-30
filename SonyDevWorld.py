@@ -55,10 +55,19 @@ else:
     #    prettified = json.dumps(items, indent=4)
     #    f.write(prettified)
 
+# Filter out entries that are not OSS archives or blobs,
+# and also unpublished entries which have no tags
+items = filter(lambda x: x.get("tags"), items)
+items = list(filter(
+    lambda x: x["tags"][0].get("slug") in [
+        "xperia-open-source-archives",
+        "software-binaries"],
+    items))
+
 x = 0
 check = True
-while check:
-    if x == len(items) and None in last_status:
+while check and None not in last_status:
+    if x == len(items):
         # Can happen if too many entries were pushed (unrealistic) or 3
         # consecutive items at once were taken down (even more unrealistic)
         # We can deal with this in two ways:
@@ -69,8 +78,7 @@ while check:
         #print("Saved state not found in response, maybe item was taken down?")
         #print("Exiting")
         #sys.exit(1)
-    guid = items[x]['guid']  # e.g. 'file-download-798601'
-    check = guid not in last_status
+    check = items[x].get('guid') not in last_status
     if check:
         x += 1
     else:
@@ -78,22 +86,13 @@ while check:
               .format(base_url, items[x]['permalink']))
         items = items[:x]
 
-# Filter out entries that are not OSS archives or blobs,
-# and also unpublished entries which have no tags
-items = filter(lambda x: x.get("tags"), items)
-items = list(reversed(list(filter(
-    lambda x: x["tags"][0].get("slug") in [
-        "xperia-open-source-archives",
-        "software-binaries"],
-    items))))
-
 if len(items) == 0:
     print("No new items!")
     sys.exit(0)
 
 last_guids = []
 t = 0
-for n in range(0, len(items)):
+for n in reversed(range(0, len(items))):
     post = items[n]
     tags = post.get('tags')
     title = post['post_title']
@@ -147,8 +146,8 @@ for n in range(0, len(items)):
     # Update guid at this point so that only published entries are saved
     last_guids = [
         "{}\n".format(items[n].get("guid")),
-        "{}\n".format(items[max(n - 1, 0)].get("guid")),
-        "{}\n".format(items[max(n - 2, 0)].get("guid"))
+        "{}\n".format(items[min(n + 1, len(items) - 1)].get("guid")),
+        "{}\n".format(items[min(n + 2, len(items) - 1)].get("guid"))
     ]
 
     sleep(timeout)  # We do not want to be cooled down by Bot API
