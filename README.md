@@ -36,10 +36,12 @@ in offline mode after you've saved `items.json`.
 For deploying, a simple `systemd` unit file with a timer is included.
 
 After you've supplied your token inside the `.service` file and copied the unit
-and timer files into `~/.config/systemd/user/`, you can run this unit without
-special permissions as a user unit via
-`systemctl --user daemon-reload` and then
-`systemctl --user enable --now sonydevworldbot.timer`
+and timer files into `/etc/systemd/system/`, you can run the service
+periodically via
+`systemctl daemon-reload` and then
+`systemctl reenable --now sonydevworldbot.timer`
+
+For convenience, there is also an [ansible role][ansible] available.
 
 ### Details
 `SonyDevWorld.py` does all the heavy lifting for you. It posts to the Telegram
@@ -50,3 +52,5 @@ something like `file-download-786918`.
 
 ## License
 MIT, see [LICENSE.md](LICENSE.md).
+
+[ansible]: https://git.ix5.org/felix/ansible-role-sony-dev-world-bot
