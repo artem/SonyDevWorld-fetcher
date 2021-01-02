@@ -2,10 +2,10 @@
 Description=SonyDevWorld bot timer for user %i
 
 [Timer]
-#OnCalendar=daily
-#Persistent=true
-OnBootSec=1min
-OnUnitActiveSec=20min
+# Every 10 min
+OnCalendar=*:0/10
+# Needed because default AccuracySec is 1min
+AccuracySec=1
 
 [Install]
 WantedBy=timers.target
